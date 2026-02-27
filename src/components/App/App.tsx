@@ -6,30 +6,27 @@ import VoteStats from '../VoteStats/VoteStats';
 import Notification from '../Notification/Notification';
 import css from './App.module.css';
 
-export default function App() {
-  const [votes, setVotes] = useState<Votes>({
-    good: 0,
-    neutral: 0,
-    bad: 0,
-  });
+const initialVotes: Votes = {
+  good: 0,
+  neutral: 0,
+  bad: 0,
+};
+
+function App() {
+  const [votes, setVotes] = useState<Votes>(initialVotes);
 
   const handleVote = (type: VoteType): void => {
-    setVotes(prev => ({
-      ...prev,
-      [type]: prev[type] + 1,
+    setVotes((prevVotes) => ({
+      ...prevVotes,
+      [type]: prevVotes[type] + 1,
     }));
   };
 
   const resetVotes = (): void => {
-    setVotes({
-      good: 0,
-      neutral: 0,
-      bad: 0,
-    });
+    setVotes(initialVotes);
   };
 
   const totalVotes = votes.good + votes.neutral + votes.bad;
-
   const positiveRate = totalVotes
     ? Math.round((votes.good / totalVotes) * 100)
     : 0;
@@ -54,3 +51,5 @@ export default function App() {
     </div>
   );
 }
+
+export default App;
